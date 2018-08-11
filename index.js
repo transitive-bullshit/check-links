@@ -34,7 +34,7 @@ const protocolWhitelist = new Set([
  * @param {string} [opts.baseUrl] - Base URL for resolving relative urls
  * @param {number} [opts.concurrency=8] - Maximum number of urls to resolve concurrently
  * @param {number} [opts.retries=2] - Number of times to retry resolving a dead URL
- * @param {Set} [opts.protocols=Set] - Set of string protocols to accept (defaults to `http:` and `https:`)
+ * @param {Set} [opts.protocols=Set(['http:', 'https:'])] - Set of string protocols to accept (defaults to `http:` and `https:`)
  *
  * @return {Promise}
  */
