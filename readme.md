@@ -18,7 +18,7 @@ npm install --save check-links
 const checkLinks = require('check-links')
 
 const results = await checkLinks([
-  'https://google.com',
+  'https://foo.com',
   'https://404.com',
 ])
 
