@@ -19,7 +19,7 @@ const protocolWhitelist = new Set([
  *
  * Returns a `Map<String, Object>` that maps each input URL to an Object with at least
  * one property, `status` which may be any of `alive | dead | error | invalid`. Status
- * will be `alive` if the URL was reachable, `dead` if it definitely was not reachable,
+ * will be `alive` if the URL was reachable, `dead` if it was definitely not reachable,
  * `error` in the event of repeated transport errors, and `invalid` if the URL was parsed
  * as invalid.
  *
