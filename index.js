@@ -58,21 +58,15 @@ module.exports = (urls, opts) => {
   })
 
   return (
-    pMap(validUrls, (url) => {
-      const u = isUrlAlive(url, {
+    pMap(validUrls, (url) => (
+      isUrlAlive(url, {
         baseUrl,
         retries
       })
-
-      if (!u.then) {
-        console.log(url, u)
-      }
-
-      return u
         .then((result) => {
           results[url] = result
         })
-    }, {
+    ), {
       concurrency
     })
       .then(() => results)
