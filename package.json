@@ -1,6 +1,6 @@
 {
   "name": "check-links",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Robustly checks an array of URLs for liveness.",
   "main": "index.js",
   "repository": "transitive-bullshit/check-links",
