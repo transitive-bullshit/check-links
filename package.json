@@ -1,0 +1,43 @@
+{
+  "name": "check-links",
+  "version": "0.0.0",
+  "description": "Robustly checks an array of URLs for liveness.",
+  "main": "index.js",
+  "repository": "transitive-bullshit/check-links",
+  "author": "Travis Fischer <travis@automagical.ai>",
+  "license": "MIT",
+  "reveal": true,
+  "scripts": {
+    "docs": "update-markdown-jsdoc --no-markdown-toc",
+    "test": "ava -v && standard"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "keywords": [
+    "url",
+    "liveness",
+    "alive",
+    "dead",
+    "404",
+    "200",
+    "check",
+    "link",
+    "link-check"
+  ],
+  "devDependencies": {
+    "ava": "^0.25.0",
+    "nock": "^9.6.0",
+    "standard": "^11.0.0",
+    "update-markdown-jsdoc": "^1.0.6"
+  },
+  "dependencies": {
+    "is-online": "^7.0.0",
+    "is-relative-url": "^2.0.0",
+    "link-check": "^4.4.4",
+    "p-map": "^1.2.0",
+    "p-memoize": "^2.0.0",
+    "p-retry": "^2.0.0",
+    "pify": "^4.0.0"
+  }
+}
