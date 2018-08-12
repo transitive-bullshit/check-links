@@ -41,9 +41,9 @@ const results2 = await checkLinks([
 })
 ```
 
--   Supports HTTP and HTTPS.
+-   Supports HTTP and HTTPS urls.
 -   Defaults to a 10 second timeout per HTTP request with 2 retries.
--   Defaults to a a Mac OS Chrome `user-agent`.
+-   Defaults to a Mac OS Chrome `user-agent`.
 -   Defaults to following redirects.
 
 ## API
