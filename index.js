@@ -14,8 +14,6 @@ const checkLink = require('./lib/check-link')
  * Returns a `Map<String, LivenessResult>` that maps each input URL to an object
  * containing `status` and possibly `statusCode`.
  *
- * Supports HTTP and HTTPS protocols.
- *
  * `LivenessResult.status` will be one of the following:
  * - `alive` if the URL is reachable (2XX status code)
  * - `dead` if the URL is not reachable
