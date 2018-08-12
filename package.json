@@ -8,7 +8,7 @@
   "license": "MIT",
   "reveal": true,
   "scripts": {
-    "docs": "update-markdown-jsdoc --no-markdown-toc",
+    "docs": "update-markdown-jsdoc --no-markdown-toc --shallow",
     "test": "ava -v && standard"
   },
   "engines": {
@@ -20,10 +20,12 @@
     "alive",
     "dead",
     "404",
+    "500",
     "200",
     "check",
     "link",
-    "link-check"
+    "link-check",
+    "url-check"
   ],
   "devDependencies": {
     "ava": "^0.25.0",
@@ -33,10 +35,7 @@
   },
   "dependencies": {
     "is-relative-url": "^2.0.0",
-    "link-check": "^4.4.4",
     "p-map": "^1.2.0",
-    "p-memoize": "^2.0.0",
-    "p-retry": "^2.0.0",
-    "pify": "^4.0.0"
+    "p-memoize": "^2.0.0"
   }
 }

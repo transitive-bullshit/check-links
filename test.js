@@ -5,144 +5,163 @@ const nock = require('nock')
 
 const checkLinks = require('.')
 
-test.serial('check-links all alive', async (t) => {
-  const urls = [
-    'https://NzcxNjJkYzliY2RiMmQ4OTBiNWE1ZmRl.com',
-    'http://ZjFiN2UyMThmODUzZWQ5ZmJmODM2YmFm.com',
-    'https://ODdjY2I3YWJlZDdmYmQ4Zjc1ZTI4MjQ3.net'
-  ]
+const aliveUrls = [
+  'https://123.com/',
+  'http://456.com/',
+  'https://789.net/'
+]
 
-  for (const url of urls) {
-    nock(url).intercept('/', 'GET').reply(200)
+const aliveGETUrls = [
+  'https://get-foo.com/',
+  'https://get-bar.com/',
+  'https://get-baz.net/'
+]
+
+const deadUrls = [
+  'https://a.net/',
+  'https://b.net/',
+  'https://c.net/',
+  'https://d.neti/',
+  'https://e.net/',
+  'https://f.net/',
+  'https://g.net/',
+  'https://h.net/',
+  'https://i.net/'
+]
+
+const invalidUrls = [
+  'ftp://123.com',
+  'mailto:foo@bar.com',
+  'foobar'
+]
+
+const allUrls = aliveUrls
+  .concat(aliveGETUrls)
+  .concat(deadUrls)
+  .concat(invalidUrls)
+
+test.before(() => {
+  for (const url of aliveUrls) {
+    nock(url)
+      .persist()
+      .intercept('/', 'HEAD')
+      .reply(200)
   }
 
-  const results = await checkLinks(urls)
-  t.is(Object.keys(results).length, urls.length)
+  for (const url of aliveGETUrls) {
+    nock(url)
+      .persist()
+      .intercept('/', 'HEAD')
+      .reply(405)
+      .intercept('/', 'GET')
+      .reply(200)
+  }
+
+  for (const url of deadUrls) {
+    nock(url)
+      .persist()
+      .intercept('/', 'HEAD')
+      .reply(400)
+      .intercept('/', 'GET')
+      .reply(400)
+      .intercept('/404', 'HEAD')
+      .reply(404)
+      .intercept('/404', 'GET')
+      .reply(404)
+      .intercept('/500', 'HEAD')
+      .reply(500)
+      .intercept('/500', 'GET')
+      .reply(500)
+  }
+})
+
+test('check-links alive urls HEAD', async (t) => {
+  const results = await checkLinks(aliveUrls)
+  t.is(Object.keys(results).length, aliveUrls.length)
 
   for (const url in results) {
-    const result = results[url]
-    t.is(result.status, 'alive')
-    t.is(result.statusCode, 200)
+    t.deepEqual(results[url], {
+      status: 'alive',
+      statusCode: 200
+    })
   }
-
-  nock.cleanAll()
 })
 
-test.serial('check-links all dead and retry properly', async (t) => {
-  const urls = [
-    'https://Nzcx.com',
-    'http://ZjFiN2Uy.com',
-    'https://ODdjY2I3.net'
-  ]
-
-  for (const url of urls) {
-    nock(url).intercept('/', 'GET').times(3).reply(500)
-  }
-
-  const results = await checkLinks(urls)
-  t.is(Object.keys(results).length, urls.length)
+test('check-links alive urls GET', async (t) => {
+  const results = await checkLinks(aliveGETUrls)
+  t.is(Object.keys(results).length, aliveGETUrls.length)
 
   for (const url in results) {
-    const result = results[url]
-    t.is(result.status, 'dead')
-    t.is(result.statusCode, 500)
+    t.deepEqual(results[url], {
+      status: 'alive',
+      statusCode: 200
+    })
   }
-
-  nock.cleanAll()
 })
 
-test.serial('check-links mixed alive / dead', async (t) => {
-  const aliveUrls = [
-    'https://123.com',
-    'http://456.com',
-    'https://789.net'
-  ]
+test('check-links invalid urls', async (t) => {
+  const results = await checkLinks(invalidUrls)
+  t.is(Object.keys(results).length, invalidUrls.length)
 
-  const deadUrls = [
-    'https://a.net',
-    'https://b.net',
-    'https://c.net',
-    'https://d.net',
-    'https://e.net',
-    'https://f.net',
-    'https://g.net',
-    'https://h.net',
-    'https://i.net'
-  ]
-
-  const urls = aliveUrls.concat(deadUrls)
-
-  for (const url of aliveUrls) {
-    nock(url).intercept('/', 'GET').reply(200)
+  for (const url in results) {
+    t.deepEqual(results[url], {
+      status: 'invalid'
+    })
   }
-
-  for (const url of deadUrls) {
-    nock(url).intercept('/', 'GET').reply(404)
-  }
-
-  const results = await checkLinks(urls)
-  t.is(Object.keys(results).length, urls.length)
-
-  for (const url of aliveUrls) {
-    const result = results[url]
-    t.is(result.status, 'alive')
-    t.is(result.statusCode, 200)
-  }
-
-  for (const url of deadUrls) {
-    const result = results[url]
-    t.is(result.status, 'dead')
-    t.is(result.statusCode, 404)
-  }
-
-  nock.cleanAll()
 })
 
-test.serial('check-links mixed alive / dead - 1 retry', async (t) => {
-  const aliveUrls = [
-    'https://123.com',
-    'http://456.com',
-    'https://789.net'
-  ]
+test('check-links dead urls 500', async (t) => {
+  const results = await checkLinks(deadUrls.map((url) => `${url}500`))
+  t.is(Object.keys(results).length, deadUrls.length)
 
-  const deadUrls = [
-    'https://a.net',
-    'https://b.net',
-    'https://c.net',
-    'https://d.net',
-    'https://e.net',
-    'https://f.net',
-    'https://g.net',
-    'https://h.net',
-    'https://i.net'
-  ]
+  for (const url in results) {
+    t.deepEqual(results[url], {
+      status: 'dead',
+      statusCode: 500
+    })
+  }
+})
 
-  const urls = aliveUrls.concat(deadUrls)
+test('check-links dead urls 404', async (t) => {
+  const results = await checkLinks(deadUrls.map((url) => `${url}404`))
+  t.is(Object.keys(results).length, deadUrls.length)
+
+  for (const url in results) {
+    t.deepEqual(results[url], {
+      status: 'dead',
+      statusCode: 404
+    })
+  }
+})
+
+test('check-links mixed alive / dead / invalid urls', async (t) => {
+  const results = await checkLinks(allUrls)
+  t.is(Object.keys(results).length, allUrls.length)
 
   for (const url of aliveUrls) {
-    nock(url).intercept('/', 'GET').reply(200)
+    t.deepEqual(results[url], {
+      status: 'alive',
+      statusCode: 200
+    })
+  }
+
+  for (const url of aliveGETUrls) {
+    t.deepEqual(results[url], {
+      status: 'alive',
+      statusCode: 200
+    })
   }
 
   for (const url of deadUrls) {
-    nock(url).intercept('/', 'GET').times(2).reply(502)
+    t.deepEqual(results[url], {
+      status: 'dead',
+      statusCode: 400
+    })
   }
 
-  const results = await checkLinks(urls, {
-    retries: 1
-  })
-  t.is(Object.keys(results).length, urls.length)
-
-  for (const url of aliveUrls) {
-    const result = results[url]
-    t.is(result.status, 'alive')
-    t.is(result.statusCode, 200)
+  for (const url of invalidUrls) {
+    t.deepEqual(results[url], {
+      status: 'invalid'
+    })
   }
-
-  for (const url of deadUrls) {
-    const result = results[url]
-    t.is(result.status, 'dead')
-    t.is(result.statusCode, 502)
-  }
-
-  nock.cleanAll()
 })
