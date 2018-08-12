@@ -4,6 +4,12 @@
 
 [![NPM](https://img.shields.io/npm/v/check-links.svg)](https://www.npmjs.com/package/check-links) [![Build Status](https://travis-ci.com/transitive-bullshit/check-links.svg?branch=master)](https://travis-ci.com/transitive-bullshit/check-links) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+For each URL, it first attempts an HTTP HEAD request, and if that fails it will attempt
+an HTTP GET request, retrying several times by default with exponential falloff.
+
+This module handles concurrency and retry logic so you can check the status of thousands
+of links quickly and robustly.
+
 ## Install
 
 This module requires `node >= 4`.
@@ -25,14 +31,13 @@ const results = await checkLinks([
 results['https://foo.com'] // { status: 'alive', statusCode: 200 }
 results['https://404.com'] // { status: 'dead', statusCode: 404 }
 
-const results = await checkLinks([
+// example using a custom timeout and retry count
+const results2 = await checkLinks([
   'https://foo.com',
   'https://404.com',
 ], {
-  retry: {
-    timeout:
-    retries:
-  }
+  timeout: 30000,
+  retry: 1
 })
 ```
 
