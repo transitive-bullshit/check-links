@@ -34,6 +34,7 @@
     "update-markdown-jsdoc": "^1.0.6"
   },
   "dependencies": {
+    "got": "^9.0.0",
     "is-relative-url": "^2.0.0",
     "p-map": "^1.2.0",
     "p-memoize": "^2.0.0"
