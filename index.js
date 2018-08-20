@@ -27,14 +27,14 @@ const checkLink = require('./lib/check-link')
  *
  * @param {array<string>} urls - Array of urls to test
  * @param {object} [opts] - Optional configuration options (any extra options are passed to [got](https://github.com/sindresorhus/got#options))
- * @param {number} [opts.concurrency=32] - Maximum number of urls to resolve concurrently
+ * @param {number} [opts.concurrency=8] - Maximum number of urls to resolve concurrently
  *
  * @return {Promise<LivenessResult>}
  */
 module.exports = (urls, opts) => {
   opts = opts || { }
 
-  const concurrency = opts.concurrency || 32
+  const concurrency = opts.concurrency || 8
   const results = { }
 
   return (
