@@ -12,7 +12,7 @@
     "test": "ava -v && standard"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=8"
   },
   "keywords": [
     "url",
@@ -28,15 +28,15 @@
     "url-check"
   ],
   "devDependencies": {
-    "ava": "^0.25.0",
-    "nock": "^9.6.0",
-    "standard": "^11.0.0",
+    "ava": "^1.2.1",
+    "nock": "^10.0.6",
+    "standard": "^12.0.1",
     "update-markdown-jsdoc": "^1.0.6"
   },
   "dependencies": {
-    "got": "^9.0.0",
+    "got": "^9.6.0",
     "is-relative-url": "^2.0.0",
-    "p-map": "^1.2.0",
-    "p-memoize": "^2.0.0"
+    "p-map": "^2.0.0",
+    "p-memoize": "^2.1.0"
   }
 }
