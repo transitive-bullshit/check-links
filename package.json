@@ -30,6 +30,7 @@
   "devDependencies": {
     "ava": "^1.2.1",
     "nock": "^10.0.6",
+    "sinon": "^7.4.2",
     "standard": "^12.0.1",
     "update-markdown-jsdoc": "^1.0.6"
   },

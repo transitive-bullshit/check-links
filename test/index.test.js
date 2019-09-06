@@ -3,7 +3,7 @@
 const test = require('ava')
 const nock = require('nock')
 
-const checkLinks = require('.')
+const checkLinks = require('..')
 
 const aliveUrls = [
   'https://123.com/',
