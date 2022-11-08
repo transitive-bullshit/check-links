@@ -16,7 +16,7 @@
   },
   "scripts": {
     "docs": "update-markdown-jsdoc --no-markdown-toc --shallow",
-    "test": "ava -v && standard"
+    "test": "ava -v && prettier --check ."
   },
   "keywords": [
     "url",
@@ -42,7 +42,6 @@
     "nock": "^13.2.9",
     "prettier": "^2.7.1",
     "sinon": "^14.0.2",
-    "standard": "^17.0.0",
     "update-markdown-jsdoc": "^1.0.6"
   }
 }
