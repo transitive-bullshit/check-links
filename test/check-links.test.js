@@ -1,15 +1,9 @@
-'use strict'
+import test from 'ava'
+import nock from 'nock'
 
-const test = require('ava')
-const nock = require('nock')
+import checkLinks from '../lib/index.js'
 
-const checkLinks = require('..')
-
-const aliveUrls = [
-  'https://123.com/',
-  'http://456.com/',
-  'https://789.net/'
-]
+const aliveUrls = ['https://123.com/', 'http://456.com/', 'https://789.net/']
 
 const aliveGETUrls = [
   'https://get-foo.com/',
@@ -29,11 +23,7 @@ const deadUrls = [
   'https://i.net/'
 ]
 
-const invalidUrls = [
-  'ftp://123.com',
-  'mailto:foo@bar.com',
-  'foobar'
-]
+const invalidUrls = ['ftp://123.com', 'mailto:foo@bar.com', 'foobar']
 
 const allUrls = aliveUrls
   .concat(aliveGETUrls)
@@ -42,10 +32,7 @@ const allUrls = aliveUrls
 
 test.before(() => {
   for (const url of aliveUrls) {
-    nock(url)
-      .persist()
-      .intercept('/', 'HEAD')
-      .reply(200)
+    nock(url).persist().intercept('/', 'HEAD').reply(200)
   }
 
   for (const url of aliveGETUrls) {
@@ -75,7 +62,7 @@ test.before(() => {
   }
 })
 
-test('check-links alive urls HEAD', async (t) => {
+test.only('check-links alive urls HEAD', async (t) => {
   const results = await checkLinks(aliveUrls)
   t.is(Object.keys(results).length, aliveUrls.length)
 

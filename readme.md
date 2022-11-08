@@ -2,7 +2,7 @@
 
 > Robustly checks an array of URLs for liveness.
 
-[![NPM](https://img.shields.io/npm/v/check-links.svg)](https://www.npmjs.com/package/check-links) [![Build Status](https://travis-ci.com/transitive-bullshit/check-links.svg?branch=master)](https://travis-ci.com/transitive-bullshit/check-links) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/check-links.svg)](https://www.npmjs.com/package/check-links) [![Build Status](https://github.com/transitive-bullshit/check-links/actions/workflows/test.yml/badge.svg)](https://github.com/transitive-bullshit/check-links/actions/workflows/test.yml) [![Prettier Code Formatting](https://img.shields.io/badge/code_style-prettier-brightgreen.svg)](https://prettier.io)
 
 For each URL, it first attempts an HTTP HEAD request, and if that fails it will attempt
 an HTTP GET request, retrying several times by default with exponential falloff.
@@ -12,39 +12,41 @@ of links quickly and robustly.
 
 ## Install
 
-This module requires `node >= 8`.
+This module requires `node >= 14.17`.
 
 ```bash
 npm install --save check-links
+# or
+yarn add check-links
+# or
+pnpm add check-links
 ```
+
+Note: this package uses ESM and no longer provides a CommonJS export. See [here](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) for more info on how to use ESM modules.
 
 ## Usage
 
 ```js
-const checkLinks = require('check-links')
+import checkLinks from 'check-links'
 
-const results = await checkLinks([
-  'https://foo.com',
-  'https://404.com',
-])
+const results = await checkLinks(['https://foo.com', 'https://404.com'])
 
 results['https://foo.com'] // { status: 'alive', statusCode: 200 }
 results['https://404.com'] // { status: 'dead', statusCode: 404 }
 
-// example using a custom timeout and retry count
-const results2 = await checkLinks([
-  'https://foo.com',
-  'https://404.com',
-], {
-  timeout: 30000,
-  retry: 1
+// example using a custom concurrency, timeout, and retry count
+const results2 = await checkLinks(['https://foo.com', 'https://404.com'], {
+  concurrency: 1,
+  timeout: { request: 30000 },
+  retry: { limit: 1 }
 })
 ```
 
--   Supports HTTP and HTTPS urls.
--   Defaults to a 30 second timeout per HTTP request with 2 retries.
--   Defaults to a Mac OS Chrome `user-agent`.
--   Defaults to following redirects.
+- Supports HTTP and HTTPS urls.
+- Defaults to a 30 second timeout per HTTP request with 2 retries.
+- Defaults to a Mac OS Chrome `user-agent`.
+- Defaults to following redirects.
+- All options use a [got options object](https://github.com/sindresorhus/got/blob/main/documentation/2-options.md).
 
 ## API
 
@@ -62,22 +64,22 @@ containing `status` and possibly `statusCode`.
 
 `LivenessResult.status` will be one of the following:
 
--   `alive` if the URL is reachable (2XX status code)
--   `dead` if the URL is not reachable
--   `invalid` if the URL was parsed as invalid or used an unsupported protocol
+- `alive` if the URL is reachable (2XX status code)
+- `dead` if the URL is not reachable
+- `invalid` if the URL was parsed as invalid or used an unsupported protocol
 
 `LivenessResult.statusCode` will contain an integer HTTP status code if that URL resolved
 properly.
 
 Type: `function (urls, opts)`
 
--   `urls` **[array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** Array of urls to test
--   `opts` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Optional configuration options (any extra options are passed to [got](https://github.com/sindresorhus/got#options))
-    -   `opts.concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Maximum number of urls to resolve concurrently (optional, default `8`)
+- `urls` **[array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** Array of urls to test
+- `opts` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Optional configuration options (any extra options are passed to [got](https://github.com/sindresorhus/got#options))
+  - `opts.concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Maximum number of urls to resolve concurrently (optional, default `8`)
 
 ## Related
 
--   [remark-lint-no-dead-urls](https://github.com/davidtheclark/remark-lint-no-dead-urls) - Remark lint plugin that inspired this module.
+- [remark-lint-no-dead-urls](https://github.com/davidtheclark/remark-lint-no-dead-urls) - Remark lint plugin that inspired this module.
 
 ## License
 
