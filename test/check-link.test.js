@@ -5,6 +5,7 @@ import { checkLink, utils } from '../lib/index.js'
 
 test.serial('check-links default options', async (t) => {
   const stub = sinon.stub(utils, 'isValidUrl').callsFake((url, opts) => {
+    // @ts-expect-error options will always be passed here
     const { agent, ...rest } = opts
 
     t.is(url, 'invalid')
@@ -12,7 +13,7 @@ test.serial('check-links default options', async (t) => {
     t.deepEqual(rest, {
       headers: {
         'user-agent': utils.userAgent,
-        'Upgrade-Insecure-Requests': 1,
+        'Upgrade-Insecure-Requests': '1',
         connection: 'keep-alive',
         accept:
           'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
@@ -22,6 +23,8 @@ test.serial('check-links default options', async (t) => {
       },
       timeout: { request: 30000 }
     })
+
+    return true
   })
 
   await checkLink('invalid')
@@ -31,12 +34,13 @@ test.serial('check-links default options', async (t) => {
 
 test.serial('check-links overriding got options', async (t) => {
   const stub = sinon.stub(utils, 'isValidUrl').callsFake((url, opts) => {
+    // @ts-expect-error options will always be passed here
     const { agent, ...rest } = opts
 
     t.deepEqual(rest, {
       headers: {
         'user-agent': utils.userAgent,
-        'Upgrade-Insecure-Requests': 1,
+        'Upgrade-Insecure-Requests': '1',
         connection: 'keep-alive',
         accept:
           'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
@@ -48,6 +52,8 @@ test.serial('check-links overriding got options', async (t) => {
       timeout: { request: 10000 },
       retry: { limit: 5 }
     })
+
+    return true
   })
 
   await checkLink('invalid', {
