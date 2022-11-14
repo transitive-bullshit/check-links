@@ -6,6 +6,9 @@
   "author": "Travis Fischer <travis@transitivebullsh.it>",
   "license": "MIT",
   "type": "module",
+  "files": [
+    "lib/"
+  ],
   "module": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "exports": {
