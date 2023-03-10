@@ -44,6 +44,7 @@
     "p-memoize": "^7.1.1"
   },
   "devDependencies": {
+    "@types/node": "^18.0.0",
     "@types/sinon": "^10.0.13",
     "ava": "^5.0.1",
     "nock": "^13.2.9",
@@ -51,7 +52,7 @@
     "rimraf": "^3.0.2",
     "sinon": "^14.0.2",
     "type-coverage": "^2.22.0",
-    "typescript": "^4.8.4",
+    "typescript": "^4.9.5",
     "update-markdown-jsdoc": "^1.0.6"
   },
   "typeCoverage": {

@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@types/node': ^18.0.0
   '@types/sinon': ^10.0.13
   ava: ^5.0.1
   expiry-map: ^2.0.0
@@ -13,7 +14,7 @@ specifiers:
   rimraf: ^3.0.2
   sinon: ^14.0.2
   type-coverage: ^2.22.0
-  typescript: ^4.8.4
+  typescript: ^4.9.5
   update-markdown-jsdoc: ^1.0.6
 
 dependencies:
@@ -24,14 +25,15 @@ dependencies:
   p-memoize: 7.1.1
 
 devDependencies:
+  '@types/node': 18.11.9
   '@types/sinon': 10.0.13
   ava: 5.0.1
   nock: 13.2.9
   prettier: 2.7.1
   rimraf: 3.0.2
   sinon: 14.0.2
-  type-coverage: 2.22.0_typescript@4.8.4
-  typescript: 4.8.4
+  type-coverage: 2.22.0_typescript@4.9.5
+  typescript: 4.9.5
   update-markdown-jsdoc: 1.0.11
 
 packages:
@@ -7093,14 +7095,14 @@ packages:
     resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
     dev: true
 
-  /tsutils/3.21.0_typescript@4.8.4:
+  /tsutils/3.21.0_typescript@4.9.5:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
     engines: {node: '>= 6'}
     peerDependencies:
       typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
     dependencies:
       tslib: 1.14.1
-      typescript: 4.8.4
+      typescript: 4.9.5
     dev: true
 
   /tunnel-agent/0.6.0:
@@ -7120,7 +7122,7 @@ packages:
       prelude-ls: 1.1.2
     dev: true
 
-  /type-coverage-core/2.22.0_typescript@4.8.4:
+  /type-coverage-core/2.22.0_typescript@4.9.5:
     resolution: {integrity: sha512-j2wjwOTeKc/G6RUrgVsBYuDbum2GnJ/pCQ6/DlMvgs1QBXEqZxI9N6okUSFc14veQBzr01gG0cwmdyagKdf3Sg==}
     peerDependencies:
       typescript: 2 || 3 || 4
@@ -7129,16 +7131,16 @@ packages:
       minimatch: 3.1.2
       normalize-path: 3.0.0
       tslib: 2.4.1
-      tsutils: 3.21.0_typescript@4.8.4
-      typescript: 4.8.4
+      tsutils: 3.21.0_typescript@4.9.5
+      typescript: 4.9.5
     dev: true
 
-  /type-coverage/2.22.0_typescript@4.8.4:
+  /type-coverage/2.22.0_typescript@4.9.5:
     resolution: {integrity: sha512-wgM1yH4J5gAszojftiozxb6HSOvoCqYQLmIS5Ybo4HpBtr9BrVgK5duj4e3tkc28Xg6VA2WPB8GFC+oJw352oQ==}
     hasBin: true
     dependencies:
       minimist: 1.2.7
-      type-coverage-core: 2.22.0_typescript@4.8.4
+      type-coverage-core: 2.22.0_typescript@4.9.5
     transitivePeerDependencies:
       - typescript
     dev: true
@@ -7176,8 +7178,8 @@ packages:
     resolution: {integrity: sha512-ueeb9YybpjhivjbHP2LdFDAjbS948fGEPj+ACAMs4xCMmh72OCOMQWBQKlaN4ZNQ04yfLSDLSx1tGRIoWimObQ==}
     dev: true
 
-  /typescript/4.8.4:
-    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
+  /typescript/4.9.5:
+    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
