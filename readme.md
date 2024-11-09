@@ -12,7 +12,7 @@ of links quickly and robustly.
 
 ## Install
 
-This module requires `node >= 14.17`.
+This module requires `node >= 18`.
 
 ```bash
 npm install --save check-links
