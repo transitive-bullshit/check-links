@@ -1,16 +1,16 @@
-import test from 'ava'
+import { test, expect } from 'vitest'
 import sinon from 'sinon'
 
 import { checkLink, utils } from '../lib/index.js'
 
-test.serial('check-links default options', async (t) => {
+test.sequential('check-links default options', async () => {
   const stub = sinon.stub(utils, 'isValidUrl').callsFake((url, opts) => {
     // @ts-expect-error options will always be passed here
     const { agent, ...rest } = opts
 
-    t.is(url, 'invalid')
+    expect(url).toBe('invalid')
 
-    t.deepEqual(rest, {
+    expect(rest).toEqual({
       headers: {
         'user-agent': utils.userAgent,
         'Upgrade-Insecure-Requests': '1',
@@ -21,7 +21,7 @@ test.serial('check-links default options', async (t) => {
         'cache-control': 'max-age=0',
         'accept-language': 'en-US,en;q=0.9'
       },
-      timeout: { request: 30000 }
+      timeout: { request: 30_000 }
     })
 
     return true
@@ -32,12 +32,12 @@ test.serial('check-links default options', async (t) => {
   stub.restore()
 })
 
-test.serial('check-links overriding got options', async (t) => {
-  const stub = sinon.stub(utils, 'isValidUrl').callsFake((url, opts) => {
+test.sequential('check-links overriding got options', async () => {
+  const stub = sinon.stub(utils, 'isValidUrl').callsFake((_url, opts) => {
     // @ts-expect-error options will always be passed here
     const { agent, ...rest } = opts
 
-    t.deepEqual(rest, {
+    expect(rest).toEqual({
       headers: {
         'user-agent': utils.userAgent,
         'Upgrade-Insecure-Requests': '1',
@@ -49,7 +49,7 @@ test.serial('check-links overriding got options', async (t) => {
         'accept-language': 'en-US,en;q=0.9',
         authorization: 'test'
       },
-      timeout: { request: 10000 },
+      timeout: { request: 10_000 },
       retry: { limit: 5 }
     })
 
@@ -60,7 +60,7 @@ test.serial('check-links overriding got options', async (t) => {
     headers: {
       authorization: 'test'
     },
-    timeout: { request: 10000 },
+    timeout: { request: 10_000 },
     retry: { limit: 5 }
   })
 

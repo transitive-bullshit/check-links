@@ -1,0 +1,9 @@
+{
+  "root": true,
+  "extends": ["@fisch0920/eslint-config/node"],
+  "rules": {
+    "@typescript-eslint/naming-convention": "off",
+    "unicorn/no-for-loop": "off",
+    "array-callback-return": "off"
+  }
+}
