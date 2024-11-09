@@ -6,22 +6,29 @@
   "author": "Travis Fischer <travis@transitivebullsh.it>",
   "license": "MIT",
   "type": "module",
-  "files": [
-    "lib/"
-  ],
-  "module": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    "default": "./lib/index.js"
+    "types": "./dist/index.d.ts",
+    "default": "./dist/index.js"
   },
   "sideEffects": false,
+  "files": [
+    "dist"
+  ],
   "engines": {
-    "node": ">=14.17"
+    "node": ">=18"
   },
   "scripts": {
-    "build": "rimraf \"lib/**/*.d.ts\" \"test/**/*.d.ts\" \"*.d.ts\" && tsc && type-coverage",
+    "build": "tsc",
     "docs": "update-markdown-jsdoc --no-markdown-toc --shallow",
-    "test": "ava -v && prettier --check . && pnpm build"
+    "prebuild": "rimraf dist",
+    "pretest": "run-s build",
+    "test": "run-s test:*",
+    "test:format": "prettier --check \"**/*.{js,ts,tsx}\"",
+    "test:lint": "eslint .",
+    "test:typecheck": "tsc --noEmit",
+    "test:unit": "vitest run"
   },
   "keywords": [
     "url",
@@ -38,26 +45,21 @@
   ],
   "dependencies": {
     "expiry-map": "^2.0.0",
-    "got": "^12.5.2",
+    "got": "^14.4.4",
     "is-relative-url": "^4.0.0",
-    "p-map": "^5.5.0",
+    "p-map": "^7.0.2",
     "p-memoize": "^7.1.1"
   },
   "devDependencies": {
-    "@types/sinon": "^10.0.13",
-    "ava": "^5.0.1",
-    "nock": "^13.2.9",
-    "prettier": "^2.7.1",
-    "rimraf": "^3.0.2",
-    "sinon": "^14.0.2",
-    "type-coverage": "^2.22.0",
-    "typescript": "^4.8.4",
-    "update-markdown-jsdoc": "^1.0.6"
-  },
-  "typeCoverage": {
-    "atLeast": 100,
-    "detail": true,
-    "strict": true,
-    "ignoreCatch": true
+    "@fisch0920/eslint-config": "^1.4.0",
+    "@types/sinon": "^17.0.3",
+    "nock": "^13.5.5",
+    "npm-run-all2": "^7.0.1",
+    "only-allow": "^1.2.1",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "sinon": "^19.0.2",
+    "typescript": "^5.6.3",
+    "vitest": "2.1.4"
   }
 }

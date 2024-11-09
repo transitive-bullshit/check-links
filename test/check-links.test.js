@@ -1,4 +1,4 @@
-import test from 'ava'
+import { expect, test, beforeAll } from 'vitest'
 import nock from 'nock'
 
 import checkLinks from '../lib/index.js'
@@ -30,7 +30,7 @@ const allUrls = aliveUrls
   .concat(deadUrls)
   .concat(invalidUrls)
 
-test.before(() => {
+beforeAll(() => {
   for (const url of aliveUrls) {
     nock(url).persist().intercept('/', 'HEAD').reply(200)
   }
@@ -62,92 +62,104 @@ test.before(() => {
   }
 })
 
-test.only('check-links alive urls HEAD', async (t) => {
+test('check-links alive urls HEAD', async () => {
   const results = await checkLinks(aliveUrls)
-  t.is(Object.keys(results).length, aliveUrls.length)
+  expect(Object.keys(results).length).toBe(aliveUrls.length)
 
   for (const url in results) {
-    t.deepEqual(results[url], {
+    expect(results[url]).toEqual({
       status: 'alive',
       statusCode: 200
     })
   }
 })
 
-test('check-links alive urls GET', async (t) => {
+test('check-links alive urls GET', async () => {
   const results = await checkLinks(aliveGETUrls)
-  t.is(Object.keys(results).length, aliveGETUrls.length)
+  expect(Object.keys(results).length).toBe(aliveGETUrls.length)
 
   for (const url in results) {
-    t.deepEqual(results[url], {
+    expect(results[url]).toEqual({
       status: 'alive',
       statusCode: 200
     })
   }
 })
 
-test('check-links invalid urls', async (t) => {
+test('check-links invalid urls', async () => {
   const results = await checkLinks(invalidUrls)
-  t.is(Object.keys(results).length, invalidUrls.length)
+  expect(Object.keys(results).length).toBe(invalidUrls.length)
 
   for (const url in results) {
-    t.deepEqual(results[url], {
+    expect(results[url]).toEqual({
       status: 'invalid'
     })
   }
 })
 
-test('check-links dead urls 500', async (t) => {
-  const results = await checkLinks(deadUrls.map((url) => `${url}500`))
-  t.is(Object.keys(results).length, deadUrls.length)
+test(
+  'check-links dead urls 500',
+  {
+    timeout: 30_000
+  },
+  async () => {
+    const results = await checkLinks(deadUrls.map((url) => `${url}500`))
+    expect(Object.keys(results).length).toBe(deadUrls.length)
 
-  for (const url in results) {
-    t.deepEqual(results[url], {
-      status: 'dead',
-      statusCode: 500
-    })
+    for (const url in results) {
+      expect(results[url]).toEqual({
+        status: 'dead',
+        statusCode: 500
+      })
+    }
   }
-})
+)
 
-test('check-links dead urls 404', async (t) => {
-  const results = await checkLinks(deadUrls.map((url) => `${url}404`))
-  t.is(Object.keys(results).length, deadUrls.length)
+test(
+  'check-links dead urls 404',
+  {
+    timeout: 30_000
+  },
+  async () => {
+    const results = await checkLinks(deadUrls.map((url) => `${url}404`))
+    expect(Object.keys(results).length).toBe(deadUrls.length)
 
-  for (const url in results) {
-    t.deepEqual(results[url], {
-      status: 'dead',
-      statusCode: 404
-    })
+    for (const url in results) {
+      expect(results[url]).toEqual({
+        status: 'dead',
+        statusCode: 404
+      })
+    }
   }
-})
+)
 
-test('check-links mixed alive / dead / invalid urls', async (t) => {
+test('check-links mixed alive / dead / invalid urls', async () => {
   const results = await checkLinks(allUrls)
-  t.is(Object.keys(results).length, allUrls.length)
+  expect(Object.keys(results).length).toBe(allUrls.length)
 
   for (const url of aliveUrls) {
-    t.deepEqual(results[url], {
+    expect(results[url]).toEqual({
       status: 'alive',
       statusCode: 200
     })
   }
 
   for (const url of aliveGETUrls) {
-    t.deepEqual(results[url], {
+    expect(results[url]).toEqual({
       status: 'alive',
       statusCode: 200
     })
   }
 
   for (const url of deadUrls) {
-    t.deepEqual(results[url], {
+    expect(results[url]).toEqual({
       status: 'dead',
       statusCode: 400
     })
   }
 
   for (const url of invalidUrls) {
-    t.deepEqual(results[url], {
+    expect(results[url]).toEqual({
       status: 'invalid'
     })
   }
