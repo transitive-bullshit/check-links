@@ -1,6 +1,6 @@
 {
   "name": "check-links",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Robustly checks an array of URLs for liveness.",
   "repository": "transitive-bullshit/check-links",
   "author": "Travis Fischer <travis@transitivebullsh.it>",
